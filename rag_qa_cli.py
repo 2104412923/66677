@@ -21,6 +21,14 @@ def get_embeddings():
         model=EMBED_MODEL
     )
 
+SYSTEM_PROMPT = """你是一个基于本地知识库的智能问答助手。
+请严格遵循以下规则：
+1. 基于提供的参考文档内容回答问题
+2. 如果参考文档中没有相关信息，请明确回答"文档中未找到相关答案"
+3. 不要编造文档中不存在的信息
+4. 回答时尽量引用文档中的原文或关键概念
+"""
+
 def get_llm():
     return OllamaLLM(
         base_url=OLLAMA_BASE_URL,
@@ -29,6 +37,7 @@ def get_llm():
         top_k=10,
         top_p=0.8,
         num_predict=2048,
+        system=SYSTEM_PROMPT,
     )
 
 def load_knowledge_base():
